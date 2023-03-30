@@ -1,16 +1,12 @@
-# flutter_1st_pj
+Цей додаток був розробленний як тестовий для LANARS.
 
-A new Flutter project.
+Частина функціональних вимог була виконана.
+Архітектурні частини завдання - зовсім не виконані, через неуважність. Намагався вже потім виправити(dio), але зрозумв що зламав всю апку та повернув все до http :(
 
-## Getting Started
+zoom in/out намагався реалізувати через pinch_zoom_image - через нього VS писав щось типу: "Ця штука стара - видали її", також хотів її реалізувати через photo_view але компілятор просто крашився коли аппка запускалась, не знаю в чому діло, але треба шукати інший спосіб.
 
-This project is a starting point for a Flutter application.
+Git флоу трохи був, це діло звички, але при навчнні останнє за що я думав це за гітфоу, буду виправлятися.
 
-A few resources to get you started if this is your first Flutter project:
+Блок мною проігнорований бо я його не знаю поки що - теж будемо це виправляти!
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+"Expectations" - апкуу доопрацювати можна, але тільки мною бо це спагетікод і я це розумію :(
