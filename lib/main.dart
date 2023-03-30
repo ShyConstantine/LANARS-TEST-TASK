@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'unsplash_image.dart';
 import 'image_detail_page.dart';
+import 'package:dio/dio.dart';
 
 void main() => runApp(MyApp());
 
@@ -25,7 +25,9 @@ class MyHomePage extends StatefulWidget {
   const MyHomePage(
       {Key key = const Key('myKey'), this.title = 'Unsplash Images'})
       : super(key: key);
+
   final String title;
+
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
@@ -36,12 +38,13 @@ class _MyHomePageState extends State<MyHomePage> {
   String _query = '';
 
   Future<void> _refreshData(String query) async {
+    final dio = Dio();
     var newImages = <UnsplashImage>[];
     for (var i = 0; i < _images.length; i++) {
       var imageUrl = _images[i].imageUrl;
-      var response = await http.get(Uri.parse(imageUrl));
+      var response = await dio.get(imageUrl);
       newImages.add(UnsplashImage(
-        imageUrl: response.request!.url.toString(),
+        imageUrl: response.data.toString(),
         author: '',
         description: '',
         smallUrl: '',
@@ -66,16 +69,17 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> _getImages() async {
+    final dio = Dio();
     setState(() {
       _loading = true;
     });
 
-    final response = await http.get(Uri.parse(
-        'https://api.unsplash.com/photos?client_id=k8lg1KnkREvSThSb870MZM9IV344kl82VMFlScKMPvM&per_page=30'));
+    final response = await dio.get(
+        'https://api.unsplash.com/photos?client_id=k8lg1KnkREvSThSb870MZM9IV344kl82VMFlScKMPvM&per_page=30');
 
     if (response.statusCode == 200) {
       setState(() {
-        _imagesList = json.decode(response.body);
+        _imagesList = json.decode(response.data);
         _loading = false;
       });
     } else {
@@ -89,12 +93,12 @@ class _MyHomePageState extends State<MyHomePage> {
       String _query = query;
     });
 
-    final response = await http.get(Uri.parse(
-        'https://api.unsplash.com/search/photos?client_id=k8lg1KnkREvSThSb870MZM9IV344kl82VMFlScKMPvM&query=${query}&per_page=30'));
-
+    final dio = Dio();
+    final response = await dio.get(
+        'https://api.unsplash.com/photos?client_id=k8lg1KnkREvSThSb870MZM9IV344kl82VMFlScKMPvM&per_page=30');
     if (response.statusCode == 200) {
       setState(() {
-        _imagesList = json.decode(response.body)['results'];
+        _imagesList = json.decode(response.data)['results'];
         _loading = false;
       });
     } else {
@@ -109,6 +113,7 @@ class _MyHomePageState extends State<MyHomePage> {
     _getImages();
   }
 
+// Віджет поля пошуку
   Widget _buildSearchBar() {
     return TextField(
       decoration: InputDecoration(
@@ -161,6 +166,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.black,
         title: Text(widget.title),
       ),
       body: RefreshIndicator(

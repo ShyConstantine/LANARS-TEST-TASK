@@ -2,7 +2,7 @@ class UnsplashImage {
   final String imageUrl;
   final String smallUrl;
   final String author;
-  final String description;
+  late final String description;
 
   UnsplashImage(
       {required this.imageUrl,

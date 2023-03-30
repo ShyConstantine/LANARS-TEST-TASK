@@ -81,6 +81,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.5"
+  dio:
+    dependency: "direct main"
+    description:
+      name: dio
+      sha256: "7d328c4d898a61efc3cd93655a0955858e29a0aa647f0f9e02d59b3bb275e2e8"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.0.6"
   fake_async:
     dependency: transitive
     description:
@@ -148,7 +156,7 @@ packages:
     source: sdk
     version: "0.0.0"
   http:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: http
       sha256: "6aa2946395183537c8b880962d935877325d6a09a2867c3970c05c0fed6ac482"
@@ -275,6 +283,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.11.1"
+  pinch_zoom_image:
+    dependency: "direct main"
+    description:
+      name: pinch_zoom_image
+      sha256: "6e594a7504ffc3a6089e88a327bae3b58b27cfeb8df6527db14447f0adfe62cb"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.5"
   platform:
     dependency: transitive
     description:
