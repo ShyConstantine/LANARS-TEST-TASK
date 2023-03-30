@@ -170,11 +170,17 @@ class _MyHomePageState extends State<MyHomePage> {
             padding: const EdgeInsets.all(8.0),
             child: TextField(
               decoration: InputDecoration(
-                labelText: 'Search',
+                hintText: 'Search',
+                prefixIcon: Icon(Icons.search),
                 labelStyle: TextStyle(color: Colors.black),
-                border: OutlineInputBorder(),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                  borderSide: BorderSide.none,
+                ),
+                filled: true,
+                fillColor: Colors.grey[200],
               ),
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(color: Colors.black),
               onChanged: (value) => setState(() {
                 _query = value;
               }),
