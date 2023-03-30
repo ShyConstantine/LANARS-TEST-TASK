@@ -164,9 +164,16 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final String logoUrl =
+        'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.flaticon.com%2Ffree-icon%2Funsplash_5968763&psig=AOvVaw2pYjXppdHcYHy5gIr-Ts2l&ust=1680267351308000&source=images&cd=vfe&ved=0CA8QjRxqFwoTCMD36OXZg_4CFQAAAAAdAAAAABAE';
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.black,
+        leading: Image(
+          image: NetworkImage(logoUrl),
+          width: 40.0,
+          height: 40.0,
+        ),
+        backgroundColor: Color.fromARGB(255, 249, 242, 242),
         title: Text(widget.title),
       ),
       body: RefreshIndicator(

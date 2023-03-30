@@ -12,7 +12,7 @@ class ImageDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.black,
+        backgroundColor: Color.fromARGB(255, 255, 255, 255),
         title: Text(image.author),
       ),
       body: Center(
