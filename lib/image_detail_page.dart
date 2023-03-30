@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'unsplash_image.dart';
-import 'package:pinch_zoom_image/pinch_zoom_image.dart';
 
 class ImageDetailPage extends StatelessWidget {
   final UnsplashImage image;
@@ -12,16 +11,14 @@ class ImageDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 255, 255, 255),
+        backgroundColor: Colors.black,
         title: Text(image.author),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            PinchZoomImage(
-              image: Image.network(image.imageUrl),
-            ),
+            Image.network(image.imageUrl),
             const SizedBox(height: 15),
             Card(
               shape: RoundedRectangleBorder(
@@ -30,10 +27,26 @@ class ImageDetailPage extends StatelessWidget {
               elevation: 5,
               color: Colors.grey[100],
               child: Container(
+                width: MediaQuery.of(context).size.width,
                 padding: EdgeInsets.all(20.0),
-                child: Text(
-                  image.description,
-                  style: TextStyle(fontSize: 15.0),
+                child: SingleChildScrollView(
+                  child: Row(
+                    children: [
+                      if (image.description.isNotEmpty)
+                        Text(
+                          image.description,
+                          style: TextStyle(fontSize: 15.0),
+                        )
+                      else
+                        Text(
+                          'Description is empty!',
+                          style: TextStyle(
+                            fontSize: 15.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                    ],
+                  ),
                 ),
               ),
             ),

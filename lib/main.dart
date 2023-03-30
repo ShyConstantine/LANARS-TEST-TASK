@@ -4,7 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'unsplash_image.dart';
 import 'image_detail_page.dart';
-import 'package:dio/dio.dart';
+import 'package:http/http.dart' as http;
 
 void main() => runApp(MyApp());
 
@@ -38,13 +38,12 @@ class _MyHomePageState extends State<MyHomePage> {
   String _query = '';
 
   Future<void> _refreshData(String query) async {
-    final dio = Dio();
     var newImages = <UnsplashImage>[];
     for (var i = 0; i < _images.length; i++) {
       var imageUrl = _images[i].imageUrl;
-      var response = await dio.get(imageUrl);
+      var response = await http.get(Uri.parse(imageUrl));
       newImages.add(UnsplashImage(
-        imageUrl: response.data.toString(),
+        imageUrl: response.body.toString(),
         author: '',
         description: '',
         smallUrl: '',
@@ -69,17 +68,16 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> _getImages() async {
-    final dio = Dio();
     setState(() {
       _loading = true;
     });
 
-    final response = await dio.get(
-        'https://api.unsplash.com/photos?client_id=k8lg1KnkREvSThSb870MZM9IV344kl82VMFlScKMPvM&per_page=30');
+    final response = await http.get(Uri.parse(
+        'https://api.unsplash.com/photos?client_id=k8lg1KnkREvSThSb870MZM9IV344kl82VMFlScKMPvM&per_page=50'));
 
     if (response.statusCode == 200) {
       setState(() {
-        _imagesList = json.decode(response.data);
+        _imagesList = json.decode(response.body);
         _loading = false;
       });
     } else {
@@ -92,13 +90,12 @@ class _MyHomePageState extends State<MyHomePage> {
       _loading = true;
       String _query = query;
     });
+    final response = await http.get(Uri.parse(
+        'https://api.unsplash.com/search/photos?client_id=k8lg1KnkREvSThSb870MZM9IV344kl82VMFlScKMPvM&query=$query&per_page=50'));
 
-    final dio = Dio();
-    final response = await dio.get(
-        'https://api.unsplash.com/photos?client_id=k8lg1KnkREvSThSb870MZM9IV344kl82VMFlScKMPvM&per_page=30');
     if (response.statusCode == 200) {
       setState(() {
-        _imagesList = json.decode(response.data)['results'];
+        _imagesList = json.decode(response.body)['results'];
         _loading = false;
       });
     } else {
@@ -117,7 +114,6 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget _buildSearchBar() {
     return TextField(
       decoration: InputDecoration(
-        hintText: 'Search at Unsplash',
         prefixIcon: Icon(Icons.search),
         suffixIcon: _query.isNotEmpty
             ? IconButton(
@@ -164,8 +160,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final String logoUrl =
-        'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.flaticon.com%2Ffree-icon%2Funsplash_5968763&psig=AOvVaw2pYjXppdHcYHy5gIr-Ts2l&ust=1680267351308000&source=images&cd=vfe&ved=0CA8QjRxqFwoTCMD36OXZg_4CFQAAAAAdAAAAABAE';
+    const String logoUrl =
+        'https://cdn-icons-png.flaticon.com/512/5968/5968763.png';
     return Scaffold(
       appBar: AppBar(
         leading: Image(
@@ -173,8 +169,15 @@ class _MyHomePageState extends State<MyHomePage> {
           width: 40.0,
           height: 40.0,
         ),
-        backgroundColor: Color.fromARGB(255, 249, 242, 242),
-        title: Text(widget.title),
+        backgroundColor: Colors.black,
+        title: Text(
+          'Unsplash images viever',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 20.0,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
       body: RefreshIndicator(
         onRefresh: () => _refreshData(_query),
@@ -185,7 +188,7 @@ class _MyHomePageState extends State<MyHomePage> {
               decoration: InputDecoration(
                 hintText: 'Search',
                 prefixIcon: Icon(Icons.search),
-                labelStyle: TextStyle(color: Colors.black),
+                labelStyle: TextStyle(color: Colors.white),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(25.0)),
                   borderSide: BorderSide.none,
@@ -193,7 +196,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 filled: true,
                 fillColor: Colors.grey[200],
               ),
-              style: TextStyle(color: Colors.black),
+              style: TextStyle(color: Colors.white),
               onChanged: (value) => setState(() {
                 _query = value;
               }),
